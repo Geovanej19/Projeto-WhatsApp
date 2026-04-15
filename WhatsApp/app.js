@@ -1,3 +1,18 @@
+/**************************************************************************************************
+ * 
+ * Obejtivo: Arquivo responsável pela criação da API do WhatsApp
+ * Data; 15/04/2026
+ * Autor: Geovane
+ * Versão: 1.0
+ * http:localhost
+ * 
+ * ***********************************************************************************************/ 
+
+
+
+
+
+
 const express = require('express')
 const cors = require('cors')
 
@@ -26,12 +41,20 @@ app.get('/v1/senai/usuarios', function(request, response){
     if(usuario){
         response.status(200)
         response.json(usuario)
+    }else{
+        response.status(400)
+        response.json({"Message": "Usuário não encontrado!"})
     }
 
 })
 
-app.listen(8080, function(){
-    console.log('API funcionando');
+app.get('/v1/senai/')
+
+const PORT = process.env.PORT || 8080
+
+app.listen(PORT, function(){
+    console.log(`API funcionando na porta ${PORT}`);
     
 })
+    
 
