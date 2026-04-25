@@ -25,7 +25,7 @@ const listaContatos = function(){
  * Parâmetro: numero (string) - número do usuário
  * Retorno: Informações do perfil do usuário
  ***********************************************************************/
-const dadosUsuario = function(numero){
+const getUserProfile = function(numero){
 
     // Validação do parâmetro
     if(!numero){
@@ -55,7 +55,7 @@ const dadosUsuario = function(numero){
  * Parâmetro: numero (string) - número do usuário
  * Retorno: Lista de contatos com nome, foto e descrição
  ***********************************************************************/
-const dadosContatos = function(numero){
+const getUserContacts = function(numero){
 
     // Procura o usuário pelo número
     const dados = dadosWhats.contatos['whats-users'].find(
@@ -82,7 +82,7 @@ const dadosContatos = function(numero){
  * Parâmetro: numero (string) - número do usuário
  * Retorno: Lista de contatos com suas respectivas mensagens
  ***********************************************************************/
-const mensagemUsuarios = function(numero){
+const getAllMessages = function(numero){
 
     // Busca o usuário pelo número
     const mensagens = dadosWhats.contatos['whats-users'].find(
@@ -108,23 +108,20 @@ const mensagemUsuarios = function(numero){
  * Parâmetro: numero (string) - número do usuário
  * Retorno: Dados do usuário e suas conversas
  ***********************************************************************/
-const conversaUsuario = function(numero){
+const getConversation = function(numero, nomeContato) {
+    const usuario = dadosWhats.contatos['whats-users'].find(m => m.number === numero)
+    if (!usuario) return false
 
-    // Busca o usuário pelo número
-    const conversas = dadosWhats.contatos['whats-users'].find(
-        m => m.number === numero)
+    const contato = usuario.contacts.find(
+        c => c.name.toLocaleLowerCase() === nomeContato.toLocaleLowerCase()
+    )
+    if (!contato) return false
 
-        // Caso não encontre o usuário
-        if(!conversas){
-            return false
-        }
-
-        // Retorna os dados da conversa
-        return {
-            nome: conversas.account,
-            numero: conversas.number,
-            conversas: conversas.contacts
-        }
+    return {
+        nome: usuario.account,
+        numero: usuario.number,
+        conversa: contato.messages
+    }
 }
 
 /***********************************************************************
@@ -136,7 +133,7 @@ const conversaUsuario = function(numero){
  *      nomeContato (string) - nome do contato
  * Retorno: Mensagens que possuem a palavra pesquisada
  ***********************************************************************/
-const buscaPalavra = function(palavraChave, numero, nomeContato) {
+const searchMessages = function(numero, nomeContato, palavraChave) {
 
     // Busca o usuário pelo número
     const usuario = dadosWhats.contatos['whats-users'].find(
@@ -174,10 +171,10 @@ const buscaPalavra = function(palavraChave, numero, nomeContato) {
 
 
 module.exports = {
-    listaContatos,
-    dadosUsuario,
-    dadosContatos,
-    mensagemUsuarios,
-    conversaUsuario,
-    buscaPalavra
+    getAllUsers: listaContatos,
+    getUserProfile,
+    getUserContacts,
+    getAllMessages,
+    getConversation,
+    searchMessages
 }

@@ -11,7 +11,7 @@ export const contatos = { "whats-users" :
                         }
                       ,
       "profile-image": "img/contact1.png",
-      "number" : "11987876567",
+      "number" : "11987876567 ",
       "background" : "#fccc5b",
       "contacts": 
                 [
